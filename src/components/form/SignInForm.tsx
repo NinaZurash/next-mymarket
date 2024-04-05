@@ -102,12 +102,12 @@ const SignInForm = () => {
           or
         </div>
         <GoogleSignInButton>Sign in with Google</GoogleSignInButton> */}
-        {/* <p className="text-center gap-x-2 flex text-lg text-gray-400 mt-2">
+        <p className="text-center gap-x-2 flex text-lg text-gray-400 mt-2">
           <span> არ გაქვს ანგარიში?</span>
           <Link className="text-blue-500 hover:underline" href="/sign-up">
             - შექმენი
           </Link>
-        </p> */}
+        </p>
       </div>
     </Form>
   );
