@@ -27,7 +27,7 @@ const Navbar = async () => {
       </Link>
       <div className="flex items-center mr-28 gap-6">
         <Link
-          className="bg-[#fff3cc] hover:bg-[#FFEFB2] transition-colors duration-500 ease-in-out text-sm font-semibold px-7 py-2 rounded-xl flex gap-2 items-center"
+          className="bg-[#fff3cc] hover:bg-[#FFEFB2] transition-colors duration-500 ease-in-out text-sm font-semibold px-7 py-3 rounded-xl flex gap-2 items-center"
           href="/"
         >
           <CirclePlus size={20} color="#fec900" />
