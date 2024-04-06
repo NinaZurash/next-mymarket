@@ -60,8 +60,11 @@ const SignInForm = () => {
   return (
     <Form {...form}>
       <div className="flex flex-col gap-y-10 ">
-        <h1 className="font-bold text-4xl">ავტორიზაცია</h1>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <h1 className="font-bold text-[35px]">ავტორიზაცია</h1>
+        <form
+          className="flex flex-col gap-10"
+          onSubmit={form.handleSubmit(onSubmit)}
+        >
           <div className="space-y-4">
             <FormField
               control={form.control}
@@ -69,7 +72,7 @@ const SignInForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="ელფოსტა" {...field} />
+                    <Input className="h-14" placeholder="ელფოსტა" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -81,28 +84,33 @@ const SignInForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input type="password" placeholder="პაროლი" {...field} />
+                    <Input
+                      className="h-14"
+                      type="password"
+                      placeholder="პაროლი"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
           </div>
-          <div className="text-lg font-semibold text-slate-700 text-right p-4">
+          <div className="text-lg font-semibold text-slate-700 text-right">
             <Link href="/forgot-password">პაროლის აღდგენა</Link>
           </div>
           <Button
-            className="w-full mt-6 rounded-full bg-blue-500 text-lg p-7"
+            className="w-full  rounded-full bg-blue-500 text-lg p-7"
             type="submit"
           >
             შესვლა
           </Button>
         </form>
-        {/* <div className="mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400">
-          or
-        </div>
-        <GoogleSignInButton>Sign in with Google</GoogleSignInButton> */}
-        <p className="text-center gap-x-2 flex text-lg text-gray-400 mt-2">
+
+        {/* <div>
+          <GoogleSignInButton>Sign in with Google</GoogleSignInButton>
+        </div> */}
+        <p className="text-center justify-center gap-x-2 flex text-lg text-gray-400 mt-2">
           <span> არ გაქვს ანგარიში?</span>
           <Link className="text-blue-500 hover:underline" href="/sign-up">
             - შექმენი
