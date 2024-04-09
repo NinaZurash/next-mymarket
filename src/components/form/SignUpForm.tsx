@@ -17,6 +17,7 @@ import Link from "next/link";
 import GoogleSignInButton from "../GoogleSignInButton";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
+import SubmitButton from "./SubmitButton";
 
 const userSchema = z
   .object({
@@ -161,12 +162,7 @@ const SignUpForm = () => {
               )}
             />
           </div>
-          <Button
-            className="w-full mt-6 rounded-full bg-blue-500 text-lg p-7"
-            type="submit"
-          >
-            დადასტურება
-          </Button>
+          <SubmitButton title="რეგისტრაცია" />
         </form>
         <div className="flex gap-4 justify-center items-center">
           <GoogleSignInButton>Google</GoogleSignInButton>

@@ -18,6 +18,7 @@ import GoogleSignInButton from "../GoogleSignInButton";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
+import SubmitButton from "./SubmitButton";
 
 const FormSchema = z.object({
   email: z.string().min(1, "Email is required").email("Invalid email"),
@@ -99,12 +100,7 @@ const SignInForm = () => {
           <div className="text-[17px] font-medium text-slate-700 text-right">
             <Link href="/reset-password">პაროლის აღდგენა</Link>
           </div>
-          <Button
-            className="w-full  rounded-full bg-blue-500 text-lg p-7"
-            type="submit"
-          >
-            შესვლა
-          </Button>
+          <SubmitButton title="შესვლა" />
         </form>
 
         <div className="flex gap-4 justify-center items-center">

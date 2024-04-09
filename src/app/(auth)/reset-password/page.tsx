@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Link from "next/link";
+import SubmitButton from "@/components/form/SubmitButton";
 
 const userSchema = z.object({
   email: z.string().min(1, "Email is required").email("Invalid email"),
@@ -55,12 +56,7 @@ const ResetPasswordForm = () => {
               )}
             />
           </div>
-          <Button
-            className="w-full rounded-full bg-blue-500 text-lg p-7"
-            type="submit"
-          >
-            გაგზავნა
-          </Button>
+          <SubmitButton title="გაგზავნა" />
         </form>
         <Link
           className="ml-auto p-3 text-sky-600 hover:text-sky-800"
