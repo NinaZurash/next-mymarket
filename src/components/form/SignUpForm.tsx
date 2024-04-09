@@ -77,9 +77,12 @@ const SignUpForm = () => {
 
   return (
     <Form {...form}>
-      <div className="flex flex-col gap-y-10 ">
-        <h1 className="font-bold text-4xl">ანგარიშის შექმნა</h1>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
+      <div className="flex flex-col gap-y-5 ">
+        <h1 className="font-bold text-[33px]">ანგარიშის შექმნა</h1>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col gap-8"
+        >
           <div className="space-y-6">
             <FormField
               control={form.control}
@@ -165,11 +168,12 @@ const SignUpForm = () => {
             დადასტურება
           </Button>
         </form>
-        <div className="mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400">
-          ან
+        <div className="flex gap-4 justify-center items-center">
+          <GoogleSignInButton>Google</GoogleSignInButton>
+          <GoogleSignInButton>Google</GoogleSignInButton>
+          <GoogleSignInButton>Google</GoogleSignInButton>
         </div>
-        {/* <GoogleSignInButton>Sign up with Google</GoogleSignInButton> */}
-        <p className="text-center flex justify-center gap-2 text-gray-600 mt-2">
+        <p className="text-center flex justify-center gap-2 pb-6 pt-2 text-gray-600">
           არსებული ანგარიშით
           <Link className="text-blue-500 hover:underline" href="/sign-in">
             შესვლა

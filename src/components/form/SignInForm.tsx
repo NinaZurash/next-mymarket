@@ -59,10 +59,10 @@ const SignInForm = () => {
 
   return (
     <Form {...form}>
-      <div className="flex flex-col gap-y-10 ">
+      <div className="flex flex-col gap-y-8 ">
         <h1 className="font-bold text-[35px]">ავტორიზაცია</h1>
         <form
-          className="flex flex-col gap-10"
+          className="flex flex-col gap-8"
           onSubmit={form.handleSubmit(onSubmit)}
         >
           <div className="space-y-4">
@@ -96,8 +96,8 @@ const SignInForm = () => {
               )}
             />
           </div>
-          <div className="text-lg font-semibold text-slate-700 text-right">
-            <Link href="/forgot-password">პაროლის აღდგენა</Link>
+          <div className="text-[17px] font-medium text-slate-700 text-right">
+            <Link href="/reset-password">პაროლის აღდგენა</Link>
           </div>
           <Button
             className="w-full  rounded-full bg-blue-500 text-lg p-7"
@@ -107,10 +107,12 @@ const SignInForm = () => {
           </Button>
         </form>
 
-        {/* <div>
-          <GoogleSignInButton>Sign in with Google</GoogleSignInButton>
-        </div> */}
-        <p className="text-center justify-center gap-x-2 flex text-lg text-gray-400 mt-2">
+        <div className="flex gap-4 justify-center items-center">
+          <GoogleSignInButton>Google</GoogleSignInButton>
+          <GoogleSignInButton>Google</GoogleSignInButton>
+          <GoogleSignInButton>Google</GoogleSignInButton>
+        </div>
+        <p className="text-center justify-center gap-x-2 flex text-lg text-gray-400">
           <span> არ გაქვს ანგარიში?</span>
           <Link className="text-blue-500 hover:underline" href="/sign-up">
             - შექმენი

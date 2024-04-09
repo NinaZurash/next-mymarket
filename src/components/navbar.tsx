@@ -39,7 +39,7 @@ const Navbar = async () => {
         {session?.user ? (
           <Button className="bg-white text-slate-950 hover:bg-gray-100 flex gap-x-1 border px-4 py-2 rounded-xl transition-colors duration-500 ease-in-out">
             <User size={23} />
-            {session.user.username}
+            {session.user.name?.split(" ")[0]}
             <ChevronDown size={13} />
           </Button>
         ) : (
