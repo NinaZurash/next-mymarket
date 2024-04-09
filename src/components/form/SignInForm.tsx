@@ -49,7 +49,7 @@ const SignInForm = () => {
     if (signInData?.error) {
       toast({
         title: "Error",
-        description: "Invalid email or password",
+        description: "ელფოსტა ან პაროლი არასწორია",
         variant: "destructive",
       });
     } else {

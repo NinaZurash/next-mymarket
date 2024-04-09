@@ -70,7 +70,7 @@ const SignUpForm = () => {
     } else {
       toast({
         title: "Error",
-        description: "Oops! Something went wrong. Please try again.",
+        description: "რეგისტრაცია ვერ მოხერხდა, მოგვიანებით სცადეთ",
         variant: "destructive",
       });
     }
