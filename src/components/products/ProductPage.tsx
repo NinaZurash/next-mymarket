@@ -1,6 +1,6 @@
 "use client";
 
-import { useProducts } from "@/provider/ProductsProvider";
+import { useProducts } from "@/providers/ProductsProvider";
 import Image from "next/image";
 
 export default function ProductPage({ productId }: { productId: string }) {
