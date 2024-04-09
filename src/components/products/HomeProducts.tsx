@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Search } from "lucide-react";
-import { useProducts } from "@/provider/ProductsProvider";
+import { useProducts } from "@/providers/ProductsProvider";
 import CategoriesList from "./CategoriesList";
 import Link from "next/link";
 export type Product = {

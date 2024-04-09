@@ -1,7 +1,6 @@
 "use client";
 
-import GoogleSignInButton from "@/components/GoogleSignInButton";
-import { Button } from "@/components/ui/button";
+import SubmitButton from "@/components/form/SubmitButton";
 import {
   Form,
   FormControl,
@@ -9,31 +8,71 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { useToast } from "@/components/ui/use-toast";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
+import { toast } from "@/components/ui/use-toast";
+import { useResetPassword } from "@/services/auth/handleToken";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import Link from "next/link";
-import SubmitButton from "@/components/form/SubmitButton";
 
-const userSchema = z.object({
-  email: z.string().min(1, "Email is required").email("Invalid email"),
-});
+const FormSchema = z
+  .object({
+    password: z.string().min(8, "Password must be at least 8 characters"),
+    confirmPassword: z
+      .string()
+      .min(8, "Password must be at least 8 characters"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    path: ["confirmPassword"],
+    message: "Password do not match",
+  });
 
-const ResetPasswordForm = () => {
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
+export default function ResetPasswordPage() {
   const router = useRouter();
-  const { toast } = useToast();
-  const form = useForm<z.infer<typeof userSchema>>({
-    resolver: zodResolver(userSchema),
+  const { mutateAsync, error } = useResetPassword();
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
     defaultValues: {
-      email: "",
+      password: "",
+      confirmPassword: "",
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof userSchema>) => {};
-
+  const onSubmit = async (values: z.infer<typeof FormSchema>) => {
+    const email = localStorage.getItem("email");
+    console.log(email);
+    if (!email) {
+      toast({
+        title: "Error",
+        description: "სცადეთ მოგვიანებით",
+        variant: "destructive",
+      });
+      return;
+    }
+    const response = await mutateAsync({
+      password: values.password,
+      email: email,
+    });
+    if (response.status === 200) {
+      toast({
+        title: "Success",
+        description: "პაროლი წარმატებით შეიცვალა",
+      });
+      setTimeout(() => {
+        router.push(`${BASE_URL}/sign-in`);
+      }, 1000);
+    } else {
+      toast({
+        title: "Error",
+        description: "შეცდომა, მოგვიანებით სცადეთ",
+        variant: "destructive",
+      });
+    }
+  };
   return (
     <Form {...form}>
       <div className="flex flex-col gap-y-7 ">
@@ -45,28 +84,46 @@ const ResetPasswordForm = () => {
           <div className="space-y-6">
             <FormField
               control={form.control}
-              name="email"
+              name="password"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="ელფოსტა" {...field} />
+                    <Input
+                      type="password"
+                      placeholder="ახალი პაროლი"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      placeholder="გაიმეორეთ პაროლი"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
           </div>
-          <SubmitButton title="გაგზავნა" />
+          <SubmitButton title="გაგრძელება" />
         </form>
         <Link
           className="ml-auto p-3 text-sky-600 hover:text-sky-800"
-          href="/sign-in"
+          href={`${BASE_URL}/sign-in`}
         >
           დაბრუნება
         </Link>
       </div>
     </Form>
   );
-};
-
-export default ResetPasswordForm;
+}

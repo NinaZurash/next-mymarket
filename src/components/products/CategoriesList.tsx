@@ -1,4 +1,4 @@
-import { useProducts } from "@/provider/ProductsProvider";
+import { useProducts } from "@/providers/ProductsProvider";
 
 export default function CategoriesList() {
   const { categories } = useProducts();

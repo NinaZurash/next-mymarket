@@ -64,6 +64,8 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  resetPasswordToken Int? @unique
+  resetPasswordExpires DateTime?
 }
 
 model VerificationToken {

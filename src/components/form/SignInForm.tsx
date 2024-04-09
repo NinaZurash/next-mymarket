@@ -98,7 +98,7 @@ const SignInForm = () => {
             />
           </div>
           <div className="text-[17px] font-medium text-slate-700 text-right">
-            <Link href="/reset-password">პაროლის აღდგენა</Link>
+            <Link href="/forgot-password">პაროლის აღდგენა</Link>
           </div>
           <SubmitButton title="შესვლა" />
         </form>
