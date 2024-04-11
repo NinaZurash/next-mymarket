@@ -20,7 +20,9 @@ export default function HomeProducts() {
   console.log(products);
   return (
     <div className="flex flex-col justify-center gap-9 p-6 w-full">
-      <h1 className="text-3xl pt-8 font-semibold">ყველაფერი, რასაც ეძებ</h1>
+      <h1 className="text-[1.5rem] pt-8 font-semibold">
+        ყველაფერი, რასაც ეძებ
+      </h1>
       <div className="flex items-center gap-8">
         <Input
           className="p-8 border-amber-300 border-2 flex-1 rounded-2xl"
@@ -31,7 +33,11 @@ export default function HomeProducts() {
           <Search size={20} /> ძებნა
         </Button>
       </div>
-      <div className="flex items-center justify-center pt-6">
+
+      <div className="flex gap-4 flex-col pt-6">
+        <span className="flex text-[15px] font-black">
+          ძებნა კატეგორიის მიხედვით
+        </span>
         <CategoriesList />
       </div>
       <div className="flex flex-wrap gap-10 justify-between">
