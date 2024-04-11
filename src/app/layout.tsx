@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/toaster";
 import { ProductsProvider } from "@/providers/ProductsProvider";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
+import AuthProvider from "@/providers/AuthProvider";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -28,9 +29,11 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
+        <AuthProvider>
         <ReactQueryProvider>
           <ProductsProvider>{children}</ProductsProvider>
         </ReactQueryProvider>
+        </AuthProvider>
         <Toaster />
       </body>
     </html>

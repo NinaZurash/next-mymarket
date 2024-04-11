@@ -9,6 +9,7 @@ type User = {
   id: string;
   email: string;
   username: string;
+  
 };
 
 export const authOptions: NextAuthOptions = {
@@ -30,31 +31,24 @@ export const authOptions: NextAuthOptions = {
         if (!credentials?.email || !credentials?.password) {
           return null;
         }
-        const existingUser = await db.user.findUnique({
+        const user = await db.user.findUnique({
           where: { email: credentials.email },
         });
 
-        if (!existingUser) {
+        if (!user) {
           console.log("User not found");
           return null;
         }
 
-        // const isValidPassword = await compare(
-        //   credentials.password,
-        //   existingUser.password
-        // );
-
-        // if (!isValidPassword) {
-        //   return null;
-        // }
-        if (credentials.password !== existingUser.password) {
+        if (credentials.password !== user.password) {
           return null;
         }
 
-        return {
-          id: existingUser.id + "",
-          email: existingUser.email,
-          username: existingUser.username,
+        return  {
+          id: user.id + "",
+          email: user.email,
+          username: user.username,
+          emailVerified: user.emailVerified,
         };
       },
     }),
@@ -69,6 +63,7 @@ export const authOptions: NextAuthOptions = {
         return {
           ...token,
           username: user.username,
+          emailVerified: user.emailVerified,
         };
       }
       return token;
@@ -79,6 +74,7 @@ export const authOptions: NextAuthOptions = {
         user: {
           ...session.user,
           username: token.username,
+          emailVerified: token.emailVerified,
         },
       };
     },

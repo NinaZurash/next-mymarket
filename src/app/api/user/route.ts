@@ -23,11 +23,13 @@ const userSchema = z
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { email, username, password } = userSchema.parse(body);
+    const { email, firstName, username, lastName, password } =
+      userSchema.parse(body);
 
     const existingUserByEmail = await db.user.findUnique({
       where: { email: email },
     });
+    console.log(existingUserByEmail);
     if (existingUserByEmail) {
       return NextResponse.json(
         { user: null, message: "User with this email already exists" },

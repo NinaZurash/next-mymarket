@@ -15,10 +15,12 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import GoogleSignInButton from "../GoogleSignInButton";
-import { signIn } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import SubmitButton from "./SubmitButton";
+import { Facebook, Github } from "lucide-react";
+import { ToastAction } from "@radix-ui/react-toast";
 
 const FormSchema = z.object({
   email: z.string().min(1, "Email is required").email("Invalid email"),
@@ -28,7 +30,10 @@ const FormSchema = z.object({
     .min(8, "Password must have than 8 characters"),
 });
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 const SignInForm = () => {
+  const { data: session } = useSession();
+  
   const router = useRouter();
   const { toast } = useToast();
 
@@ -40,22 +45,43 @@ const SignInForm = () => {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof FormSchema>) => {
-    const signInData = await signIn("credentials", {
+  const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
+
+  const onSubmit = async (values: z.infer<typeof FormSchema >) => {
+    
+    const signInData = await signIn("credentials", { 
       email: values.email,
       password: values.password,
       redirect: false,
     });
+
     if (signInData?.error) {
       toast({
         title: "Error",
         description: "ელფოსტა ან პაროლი არასწორია",
         variant: "destructive",
       });
-    } else {
+    }
+    if (!session?.user?.emailVerified) {
+      localStorage.setItem("email", values.email);
+      toast({
+        action: <ToastAction altText="Try again">
+          <div className="flex gap-2 text-sm">
+          <span className="items-start">გაიარე ვერიფიკაცია რომ განაგრძო</span>
+          <Button className="border bg-white text-stone-900 hover:bg-slate-100" onClick={() => router.push(`${BASE_URL}/email-verification`)}>ლესგო!</Button>
+          </div>
+        </ToastAction>,
+      
+      })
+      return;
+    }
+
+
+     
       router.refresh();
       router.push("/");
-    }
+    
   };
 
   return (

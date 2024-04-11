@@ -2,6 +2,7 @@
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 export const CATEOGRIES_IMAGES = {
@@ -44,12 +45,20 @@ export default function CategoriesList() {
       <div className="flex gap-3  touch-pan-y overflow-x-auto overflow-y-hidden no-scrollbar w-full">
         {Object.entries(CATEOGRIES_IMAGES).map(([category, image]) => (
           <div key={category} className="relative">
-            <div className="flex flex-none w-40 h-28 rounded-2xl">
-              <Image src={image} alt={category} width={160} height={96} />
-            </div>
-            <span className="absolute top-0 left-0 w-full p-2 text-black text-[15px] font-semibold">
-              {category}
-            </span>
+            <Link href={""} className="hover:cursor-pointer">
+              <div className="flex flex-none w-40 h-28 rounded-2xl">
+                <Image
+                  className=" hover:scale-110 transition-all duration-300 ease-in-out"
+                  src={image}
+                  alt={category}
+                  width={160}
+                  height={96}
+                />
+              </div>
+              <span className="absolute top-0 left-0 w-full p-2 text-black text-[15px] font-semibold">
+                {category}
+              </span>
+            </Link>
           </div>
         ))}
       </div>

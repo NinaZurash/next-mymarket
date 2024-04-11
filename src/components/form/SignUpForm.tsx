@@ -18,6 +18,9 @@ import GoogleSignInButton from "../GoogleSignInButton";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import SubmitButton from "./SubmitButton";
+import { useCreateUser } from "@/services/auth/createUser";
+
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const userSchema = z
   .object({
@@ -39,6 +42,7 @@ const userSchema = z
 const SignUpForm = () => {
   const router = useRouter();
   const { toast } = useToast();
+  const { mutateAsync, error } = useCreateUser();
   const form = useForm<z.infer<typeof userSchema>>({
     resolver: zodResolver(userSchema),
     defaultValues: {
@@ -51,26 +55,21 @@ const SignUpForm = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof userSchema>) => {
-    const response = await fetch("/api/user", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: values.email,
-        username: values.username,
-        password: values.password,
-        confirmPassword: values.confirmPassword,
-      }),
-    });
-    if (response.ok) {
-      router.push("/");
+    localStorage.setItem("email", values.email);
+    router.push(`${BASE_URL}/email-verification`);
+
+    const response = await mutateAsync(values);
+
+    if (response.status === 201 && response) {
+      toast({
+        title: "გილოცავთ",
+        description:
+          "თქვენ წარმატებით დარეგისტრირდით, გთხოვთ შეამოწმოთ თქვენი ელ. ფოსტა",
+      });
     } else {
       toast({
-        title: "Error",
-        description: "რეგისტრაცია ვერ მოხერხდა, მოგვიანებით სცადეთ",
+        title: "შეცდომა",
+        description: "რეგისტრაცია ვერ ხერხდება",
         variant: "destructive",
       });
     }
