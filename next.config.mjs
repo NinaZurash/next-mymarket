@@ -6,7 +6,8 @@ const nextConfig = {
       "img.freepik.com",
       "auth.tnet.ge",
       "static.my.ge",
-      "port80ge.adocean.pl"
+      "port80ge.adocean.pl",
+      "img.icons8.com",
     ],
   },
 };
