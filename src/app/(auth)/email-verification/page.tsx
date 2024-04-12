@@ -100,7 +100,7 @@ export default function EmailVerificationPage() {
       });
       return;
     }
-    signOut();
+ 
     router.push(`${BASE_URL}/sign-in`);
   };
   return (

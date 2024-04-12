@@ -5,19 +5,48 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-export const CATEOGRIES_IMAGES = {
-  "მობილური ტელეფონი":
-    "https://static.my.ge/mymarket/sections/tabs/images/279.jpg",
-  "სათამაშო კონსოლი":
-    "https://static.my.ge/mymarket/sections/tabs/images/283.jpg",
-  ნოუთბუქი: "https://static.my.ge/mymarket/sections/tabs/images/287.jpg",
-  ძაღლი: "https://static.my.ge/mymarket/sections/tabs/images/291.jpg",
-  ველოსიპედი: "https://static.my.ge/mymarket/sections/tabs/images/295.jpg",
-  საწოლი: "https://static.my.ge/mymarket/sections/tabs/images/299.jpg",
-  საათები: "https://static.my.ge/mymarket/sections/tabs/images/303.jpg",
-  ფეხსაცმელი: "https://static.my.ge/mymarket/sections/tabs/images/307.jpg",
-  სათამაშოები: "https://static.my.ge/mymarket/sections/tabs/images/311.jpg",
-};
+export const CATEGORIES = {
+  "mobiluri-telefoni":{
+    title: "მობილური ტელეფონი",
+    image: "https://static.my.ge/mymarket/sections/tabs/images/279.jpg",
+  },
+  "satamasho-konsoli":{
+    title: "სათამაშო კონსოლი",
+    image: "https://static.my.ge/mymarket/sections/tabs/images/283.jpg",
+  },
+  "noutbuki":{
+    title: "ნოუთბუქი",
+    image: "https://static.my.ge/mymarket/sections/tabs/images/287.jpg",
+  },
+  "dzagli":{
+    title: "ძაღლი",
+    image: "https://static.my.ge/mymarket/sections/tabs/images/291.jpg",
+  },
+  "velosipedebi":{
+    title: "ველოსიპედი",
+    image: "https://static.my.ge/mymarket/sections/tabs/images/295.jpg",
+  },
+  "satsoli":{
+    title: "საწოლი",
+    image: "https://static.my.ge/mymarket/sections/tabs/images/299.jpg",
+  },
+  "saatebi":{
+    title: "საათები",
+    image: "https://static.my.ge/mymarket/sections/tabs/images/303.jpg",
+  },
+  "pexsatsmeli":{
+    title: "ფეხსაცმელი",
+    image: "https://static.my.ge/mymarket/sections/tabs/images/307.jpg",
+  },
+  "satamashoebi":{
+    title: "სათამაშოები",
+    image: "https://static.my.ge/mymarket/sections/tabs/images/311.jpg",
+  },
+  
+}
+
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 
 export default function CategoriesList() {
   const [hovered, setHovered] = useState(false);
@@ -43,24 +72,26 @@ export default function CategoriesList() {
         <span className="mt-2">კატეგორიები</span>
       </div>
       <div className="flex gap-3  touch-pan-y overflow-x-auto overflow-y-hidden no-scrollbar w-full">
-        {Object.entries(CATEOGRIES_IMAGES).map(([category, image]) => (
-          <div key={category} className="relative">
-            <Link href={""} className="hover:cursor-pointer">
-              <div className="flex flex-none w-40 h-28 rounded-2xl">
-                <Image
-                  className=" hover:scale-110 transition-all duration-300 ease-in-out"
-                  src={image}
-                  alt={category}
-                  width={160}
-                  height={96}
-                />
-              </div>
-              <span className="absolute top-0 left-0 w-full p-2 text-black text-[15px] font-semibold">
-                {category}
-              </span>
-            </Link>
-          </div>
-        ))}
+        {Object.entries(CATEGORIES).map(([category,{title,image}]) => {
+        
+          return  (  <div key={title} className="relative">
+              <Link href={`${BASE_URL}/categories/${category}`} className="hover:cursor-pointer">
+                <div className="flex flex-none w-40 h-28 rounded-2xl">
+                  <Image
+                    className=" hover:scale-110 transition-all duration-300 ease-in-out"
+                    src={image}
+                    alt={title}
+                    width={160}
+                    height={96}
+                  />
+                </div>
+                <span className="absolute top-0 left-0 w-full p-2 text-black text-[15px] font-semibold">
+                  {title}
+                </span>
+              </Link>
+            </div>
+          )
+        })}
       </div>
       <ChevronRight
         width={50}

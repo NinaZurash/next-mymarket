@@ -1,6 +1,5 @@
 import Navbar from "@/components/navbar";
 import HomeProducts from "@/components/products/HomeProducts";
-import Image from "next/image";
 
 export default function Home() {
   return (

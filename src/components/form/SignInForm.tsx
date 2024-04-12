@@ -55,13 +55,13 @@ const SignInForm = () => {
       password: values.password,
       redirect: false,
     });
-
     if (signInData?.error) {
       toast({
         title: "Error",
         description: "ელფოსტა ან პაროლი არასწორია",
         variant: "destructive",
       });
+      return
     }
     if (!session?.user?.emailVerified) {
       localStorage.setItem("email", values.email);
@@ -76,9 +76,6 @@ const SignInForm = () => {
       })
       return;
     }
-
-
-     
       router.refresh();
       router.push("/");
     

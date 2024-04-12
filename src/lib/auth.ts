@@ -43,12 +43,13 @@ export const authOptions: NextAuthOptions = {
         if (credentials.password !== user.password) {
           return null;
         }
-
+        console.log(user.name);
         return  {
           id: user.id + "",
           email: user.email,
           username: user.username,
           emailVerified: user.emailVerified,
+          name: user.name,
         };
       },
     }),
@@ -64,6 +65,7 @@ export const authOptions: NextAuthOptions = {
           ...token,
           username: user.username,
           emailVerified: user.emailVerified,
+          name: user.name,
         };
       }
       return token;
@@ -75,6 +77,7 @@ export const authOptions: NextAuthOptions = {
           ...session.user,
           username: token.username,
           emailVerified: token.emailVerified,
+          name: token.name,
         },
       };
     },

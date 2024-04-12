@@ -1,6 +1,7 @@
+"use client";
+
 import Link from "next/link";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+
 import { Button, buttonVariants } from "./ui/button";
 import Image from "next/image";
 import {
@@ -11,9 +12,20 @@ import {
   ShoppingCart,
   User,
 } from "lucide-react";
+import { useState } from "react";
+import { signOut, useSession } from "next-auth/react";
 
-const Navbar = async () => {
-  const session = await getServerSession(authOptions);
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
+export default function Navbar () {
+  const[showUserMenu, setShowUserMenu] = useState(false)
+  const {data:session} =  useSession();
+
+  const toggleMenu = () => {
+    setShowUserMenu(!showUserMenu); // Toggle menu visibility
+  };
+  
+  
   return (
     <div className="bg-white py-2 border-b border-s-zinc-200 fixed w-full z-10 top-0 flex items-center justify-between">
       <Link href="/">
@@ -37,9 +49,9 @@ const Navbar = async () => {
         <Heart />
         <ShoppingCart />
         {session?.user ? (
-          <Button className="bg-white text-slate-950 hover:bg-gray-100 flex gap-x-1 border px-4 py-2 rounded-xl transition-colors duration-500 ease-in-out">
+          <Button onClick={toggleMenu} className="bg-white text-slate-950 hover:bg-gray-100 flex gap-x-1 border px-4 py-2 rounded-xl transition-colors duration-500 ease-in-out">
             <User size={23} />
-            {session.user.name?.split(" ")[0]}
+            {session.user.name ? session.user.name?.split(" ")[0]: session.user.username}
             <ChevronDown size={13} />
           </Button>
         ) : (
@@ -51,16 +63,19 @@ const Navbar = async () => {
             შესვლა
           </Link>
         )}
-        {/* {session?.user ? (
-          <UserAccountnav />
-        ) : (
-          <Link className={buttonVariants()} href="/sign-in">
-            Sign in
-          </Link>
-        )} */}
+      </div>
+      <div id="userMenu" className={`flex flex-col absolute gap-4 py-3 rounded-lg bg-white w-[260px] shadow-[0_6px_18px_0_rgba(0,0,0,0.2)] right-28 top-20  ${showUserMenu ? 'block' : 'hidden'}`}>
+        <div className="flex items-center p-4">
+        { session?.user.image ? <Image src={session.user.image} alt="user image" width={50} height={50} className="rounded-full" /> : <Image src={'/assets/icons8-user.gif'} alt="user image" width={50} height={50} className="rounded-full" />}
+          <span className="text-sm">{session?.user.email}</span>
+        </div>
+        <div className="w-full border border-t-gray-100"></div>
+        <Button className="px-5 bg-white hover:bg-white text-slate-500 font-medium" onClick={()=>{signOut()}}>
+        გასვლა
+        </Button> 
       </div>
     </div>
   );
 };
 
-export default Navbar;
+

@@ -1,34 +1,36 @@
-import { toast } from "@/components/ui/use-toast";
+"use client";
 
-export const getCategories = async () => {
-  try {
-    const products = await fetch(
-      "https://fakestoreapi.com/products/categories"
-    ).then((res) => res.json());
-    return products;
-  } catch {
-    throw new Error("Failed to fetch categories");
-  }
-};
+import { useMutation } from "@tanstack/react-query";
 
-export const getAllProducts = async () => {
-  try {
-    const products = await fetch("https://fakestoreapi.com/products").then(
-      (res) => res.json()
-    );
-    return products;
-  } catch {
-    throw new Error("Failed to fetch products");
-  }
-};
 
-export const getProductById = async (id: string) => {
-  try {
-    const product = await fetch(`https://fakestoreapi.com/products/${id}`).then(
-      (res) => res.json()
-    );
-    return product;
-  } catch {
-    throw new Error("Failed to fetch product");
-  }
-};
+const baseURL = process.env.NEXT_PUBLIC_API_URL;
+
+export function useProductsByCategory () {
+  return useMutation({
+    mutationFn: async (payload: { category: string }) => {
+      const response = await fetch(
+        `${baseURL}/api/categoryproduct?category=${payload.category}`,
+        {
+          method: "GET",
+        }
+      );
+
+      return response.json();
+    },
+  });
+}
+
+export function useProductById () {
+  return useMutation({
+    mutationFn: async (payload: { id: string }) => {
+      const response = await fetch(
+        `${baseURL}/api/productById?id=${payload.id}`,
+        {
+          method: "GET",
+        }
+      );
+
+      return response.json();
+    },
+  });
+}

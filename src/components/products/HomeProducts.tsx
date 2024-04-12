@@ -4,9 +4,7 @@ import Image from "next/image";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Search } from "lucide-react";
-import { useProducts } from "@/providers/ProductsProvider";
 import CategoriesList from "./CategoriesList";
-import Link from "next/link";
 export type Product = {
   id: number;
   title: string;
@@ -16,8 +14,6 @@ export type Product = {
   image: string;
 };
 export default function HomeProducts() {
-  const { products } = useProducts();
-  console.log(products);
   return (
     <div className="flex flex-col justify-center gap-9 p-6 w-full">
       <h1 className="text-[1.5rem] pt-8 font-semibold">
@@ -41,22 +37,7 @@ export default function HomeProducts() {
         <CategoriesList />
       </div>
       <div className="flex flex-wrap gap-10 justify-between">
-        {products.map((product) => (
-          <Link key={product.id} href={`/products/${product.id}`}>
-            <div className="border flex flex-col w-[300px] justify-center items-center rounded-2xl p-5">
-              <Image
-                src={product.image}
-                alt={product.title}
-                width={100}
-                height={100}
-              />
-              <h1 className="text-center text-gray-900 font-medium">
-                {product.title}
-              </h1>
-              <p>{product.price} $</p>
-            </div>
-          </Link>
-        ))}
+        
       </div>
     </div>
   );

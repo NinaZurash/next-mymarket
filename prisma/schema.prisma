@@ -76,3 +76,12 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
+model Products {
+  id        String    @id @default(cuid())
+  title     String
+  price     Float
+  category  String
+  description String
+  image     String
+}
