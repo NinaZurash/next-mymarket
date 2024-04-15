@@ -1,11 +1,12 @@
-import { db } from "@/lib/db";
 import { sendVerificationCode } from "@/services/auth/user";
+
 import { NextRequest, NextResponse } from "next/server";
+
+import { db } from "@/lib/db";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const { email } = body;
-
   try {
     const existingUser = await db.user.findUnique({
       where: { email: email },
@@ -24,7 +25,7 @@ export async function POST(req: NextRequest) {
         {
           message: "verification code sent to your email",
         },
-        { status: 200 }
+        { status: 200 },
       );
     } else
       return NextResponse.json(
@@ -32,7 +33,7 @@ export async function POST(req: NextRequest) {
           user: null,
           message: "user not found",
         },
-        { status: 404 }
+        { status: 404 },
       );
   } catch (error) {
     console.log(error);
@@ -42,9 +43,7 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
   const query = req.nextUrl.searchParams;
   const email = query.get("email");
-  const token = query.get("token")
-    ? parseInt(query.get("token") as string)
-    : null;
+  const token = query.get("token") ? parseInt(query.get("token") as string) : null;
 
   if (!email || !token) {
     return NextResponse.json({ isValid: false }, { status: 400 });
@@ -71,7 +70,7 @@ export async function GET(req: NextRequest) {
           {
             isValid: false,
           },
-          { status: 404 }
+          { status: 404 },
         );
     } else
       return NextResponse.json(
@@ -79,7 +78,7 @@ export async function GET(req: NextRequest) {
           user: null,
           message: "user not found",
         },
-        { status: 404 }
+        { status: 404 },
       );
   } catch (error) {
     return NextResponse.json(
@@ -87,7 +86,7 @@ export async function GET(req: NextRequest) {
         user: null,
         message: "Something went wrong",
       },
-      { status: 404 }
+      { status: 404 },
     );
   }
 }

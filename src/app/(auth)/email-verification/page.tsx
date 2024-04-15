@@ -1,32 +1,24 @@
 "use client";
 
-import SubmitButton from "@/components/form/SubmitButton";
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { useToast } from "@/components/ui/use-toast";
-import {
-  useCheckVerification,
-  useVerifyEmail,
-} from "@/services/auth/emailVerification";
+import { useCheckVerification, useVerifyEmail } from "@/services/auth/emailVerification";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+
+import SubmitButton from "@/components/form/SubmitButton";
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
 
 const FormSchema = z.object({
   verificationCode: z.string().length(4),
 });
-
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -71,46 +63,40 @@ export default function EmailVerificationPage() {
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
     const tokenCode = parseInt(values.verificationCode);
     if (isNaN(tokenCode)) {
-      toast({
+      return toast({
         title: "შეცდომა",
         description: "კოდი უნდა იყოს ციფრებისგან შემდგარი",
         variant: "destructive",
       });
-      return;
     }
     const email = localStorage.getItem("email");
 
     if (!email) {
-      toast({
+      return toast({
         title: "შეცდომა",
         description: "დაფიქსირდა შეცდომა, სცადეთ მოგვიანებით",
         variant: "destructive",
       });
-      return;
     }
     const data = await checkToken({
       email: email,
       token: tokenCode,
     });
     if (!data.isValid) {
-      toast({
+      return toast({
         title: "შეცდომა",
         description: "კოდი არასწორია",
         variant: "destructive",
       });
-      return;
     }
- 
-    router.push(`${BASE_URL}/sign-in`);
+
+    router.push(`${BASE_URL}/`);
   };
   return (
     <Form {...form}>
       <div className="flex flex-col gap-y-7 ">
-        <h1 className="font-bold text-[28px]">იმეილის ვერიფიკაცია</h1>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col gap-10"
-        >
+        <h1 className="text-[28px] font-bold">იმეილის ვერიფიკაცია</h1>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-10">
           <div className="space-y-6">
             <FormField
               control={form.control}
@@ -118,9 +104,9 @@ export default function EmailVerificationPage() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <div className="flex border items-center justify-center rounded-lg">
+                    <div className="flex items-center justify-center rounded-lg border">
                       <Input
-                        className="m-1 border-none focus-visible:ring-transparent focus:ring-transparent"
+                        className="m-1 border-none focus:ring-transparent focus-visible:ring-transparent"
                         placeholder="ერთჯერადი კოდი"
                         {...field}
                       />
@@ -141,10 +127,7 @@ export default function EmailVerificationPage() {
           </div>
           <SubmitButton title="გაგრძელება" />
         </form>
-        <Link
-          className="ml-auto p-3 text-sky-600 hover:text-sky-800"
-          href={`${BASE_URL}/sign-in`}
-        >
+        <Link className="ml-auto p-3 text-sky-600 hover:text-sky-800" href={`${BASE_URL}/sign-in`}>
           დაბრუნება
         </Link>
       </div>

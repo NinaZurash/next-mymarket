@@ -24,7 +24,7 @@ const FormSchema = z.object({
     .min(8, "Password must have than 8 characters"),
 });
 
-// const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const SignInForm = () => {
   const router = useRouter();
@@ -45,18 +45,18 @@ const SignInForm = () => {
       password: values.password,
       redirect: false,
     });
-
     if (!user || user?.error) {
       return toast({
         title: "Error",
         description: "ელფოსტა ან პაროლი არასწორია",
         variant: "destructive",
       });
+    } else {
+      const updatedSession = await update();
+      localStorage.setItem("email", values.email);
+      if (updatedSession && updatedSession.user.emailVerified) router.push(`${BASE_URL}/`);
+      else router.push(`${BASE_URL}/email-verification`);
     }
-
-    setTimeout(() => {
-      window.location.reload();
-    }, 1000);
   };
 
   return (
