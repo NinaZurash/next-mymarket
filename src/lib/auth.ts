@@ -1,15 +1,16 @@
-import { NextAuthOptions } from "next-auth";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import CredentialsProvider from "next-auth/providers/credentials";
-import { db } from "./db";
 import { compare } from "bcrypt";
+
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { NextAuthOptions } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
+
+import { db } from "./db";
 
 type User = {
   id: string;
   email: string;
   username: string;
-  
 };
 
 export const authOptions: NextAuthOptions = {
@@ -43,8 +44,8 @@ export const authOptions: NextAuthOptions = {
         if (credentials.password !== user.password) {
           return null;
         }
-        console.log(user.name);
-        return  {
+
+        return {
           id: user.id + "",
           email: user.email,
           username: user.username,

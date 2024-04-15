@@ -1,24 +1,20 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../ui/form";
-import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import Link from "next/link";
-import GoogleSignInButton from "../GoogleSignInButton";
-import { useRouter } from "next/navigation";
-import { useToast } from "@/components/ui/use-toast";
-import SubmitButton from "./SubmitButton";
 import { useCreateUser } from "@/services/auth/createUser";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+
+import { useToast } from "@/components/ui/use-toast";
+
+import GoogleSignInButton from "../GoogleSignInButton";
+import { Button } from "../ui/button";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import { Input } from "../ui/input";
+import SubmitButton from "./SubmitButton";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -51,25 +47,25 @@ const SignUpForm = () => {
       email: "",
       password: "",
       confirmPassword: "",
+      username: "",
     },
   });
 
   const onSubmit = async (values: z.infer<typeof userSchema>) => {
     localStorage.setItem("email", values.email);
-    router.push(`${BASE_URL}/email-verification`);
 
     const response = await mutateAsync(values);
 
-    if (response.status === 201 && response) {
+    if (response && response.status === 201) {
+      router.push(`${BASE_URL}/email-verification`);
       toast({
         title: "გილოცავთ",
-        description:
-          "თქვენ წარმატებით დარეგისტრირდით, გთხოვთ შეამოწმოთ თქვენი ელ. ფოსტა",
+        description: "თქვენ წარმატებით დარეგისტრირდით, გაიარეთ იმეილის ვერიფიკაცია",
       });
     } else {
       toast({
         title: "შეცდომა",
-        description: "რეგისტრაცია ვერ ხერხდება",
+        description: "მომხმარებელი ამ ელფოსტით უკვე არსებობს",
         variant: "destructive",
       });
     }
@@ -78,11 +74,8 @@ const SignUpForm = () => {
   return (
     <Form {...form}>
       <div className="flex flex-col gap-y-5 ">
-        <h1 className="font-bold text-[33px]">ანგარიშის შექმნა</h1>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col gap-8"
-        >
+        <h1 className="text-[33px] font-bold">ანგარიშის შექმნა</h1>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-8">
           <div className="space-y-6">
             <FormField
               control={form.control}
@@ -150,11 +143,7 @@ const SignUpForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input
-                      placeholder="გაიმეორე პაროლი"
-                      type="password"
-                      {...field}
-                    />
+                    <Input placeholder="გაიმეორე პაროლი" type="password" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -163,12 +152,12 @@ const SignUpForm = () => {
           </div>
           <SubmitButton title="რეგისტრაცია" />
         </form>
-        <div className="flex gap-4 justify-center items-center">
+        <div className="flex items-center justify-center gap-4">
           <GoogleSignInButton>Google</GoogleSignInButton>
           <GoogleSignInButton>Google</GoogleSignInButton>
           <GoogleSignInButton>Google</GoogleSignInButton>
         </div>
-        <p className="text-center flex justify-center gap-2 pb-6 pt-2 text-gray-600">
+        <p className="flex justify-center gap-2 pb-6 pt-2 text-center text-gray-600">
           არსებული ანგარიშით
           <Link className="text-blue-500 hover:underline" href="/sign-in">
             შესვლა
