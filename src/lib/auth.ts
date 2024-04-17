@@ -67,6 +67,7 @@ export const authOptions: NextAuthOptions = {
           username: user.username,
           emailVerified: user.emailVerified,
           name: user.name,
+          id: user.id,
         };
       }
       return token;
@@ -79,6 +80,7 @@ export const authOptions: NextAuthOptions = {
           username: token.username,
           emailVerified: token.emailVerified,
           name: token.name,
+          id: token.id,
         },
       };
     },

@@ -38,7 +38,10 @@ export default function Navbar() {
           დამატება
         </Link>
         <Mail />
-        <Heart />
+
+        <Link href={`${BASE_URL}/wishlist`}>
+          <Heart name="wishlist" />
+        </Link>
         <ShoppingCart />
         {session?.user ? (
           <Button

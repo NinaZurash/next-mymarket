@@ -1,10 +1,14 @@
 "use client";
 
+import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
 import { Search } from "lucide-react";
+
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 import CategoriesList from "./CategoriesList";
+import VipProducts from "./VipProducts";
+
 export type Product = {
   id: number;
   title: string;
@@ -15,30 +19,27 @@ export type Product = {
 };
 export default function HomeProducts() {
   return (
-    <div className="flex flex-col justify-center gap-9 p-6 w-full">
-      <h1 className="text-[1.5rem] pt-8 font-semibold">
-        ყველაფერი, რასაც ეძებ
-      </h1>
+    <div className="flex w-full flex-col justify-center gap-9 p-6">
+      <h1 className="pt-8 text-[1.5rem] font-semibold">ყველაფერი, რასაც ეძებ</h1>
       <div className="flex items-center gap-8">
         <Input
-          className="p-8 border-amber-300 border-2 flex-1 rounded-2xl"
+          className="flex-1 rounded-2xl border-2 border-amber-300 p-8"
           placeholder="მაგ. Iphone 14"
           type="search"
         />
-        <Button className="text-md py-9 px-14 rounded-2xl hover:bg-[rgb(251,223,64)] bg-[#fec900] text-slate-900 font-semibold flex gap-4">
+        <Button className="text-md flex gap-4 rounded-2xl bg-[#fec900] px-14 py-9 font-semibold text-slate-900 hover:bg-[rgb(251,223,64)]">
           <Search size={20} /> ძებნა
         </Button>
       </div>
 
-      <div className="flex gap-4 flex-col pt-6">
-        <span className="flex text-[15px] font-black">
-          ძებნა კატეგორიის მიხედვით
-        </span>
+      <div className="flex flex-col gap-4 pt-6">
+        <span className="flex text-[15px] font-black">ძებნა კატეგორიის მიხედვით</span>
         <CategoriesList />
       </div>
-      <div className="flex flex-wrap gap-10 justify-between">
-        
+      <div>
+        <VipProducts />
       </div>
+      <div className="flex flex-wrap justify-between gap-10"></div>
     </div>
   );
 }

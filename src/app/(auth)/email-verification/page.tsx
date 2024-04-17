@@ -4,10 +4,10 @@ import { useCheckVerification, useVerifyEmail } from "@/services/auth/emailVerif
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import SubmitButton from "@/components/form/SubmitButton";
@@ -28,6 +28,7 @@ export default function EmailVerificationPage() {
   const { mutateAsync: checkToken } = useCheckVerification();
   const { toast } = useToast();
   const router = useRouter();
+  const { data: session } = useSession();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -35,6 +36,11 @@ export default function EmailVerificationPage() {
     },
   });
 
+  useEffect(() => {
+    if (session && session.user.emailVerified) {
+      router.push(`${BASE_URL}/`);
+    }
+  });
   const handleTokenChange = async () => {
     toast({
       title: "კოდი გაგზავნილია",

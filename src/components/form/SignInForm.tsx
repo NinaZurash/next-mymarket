@@ -1,5 +1,6 @@
 "use client";
 
+import { sign } from "crypto";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
@@ -52,10 +53,10 @@ const SignInForm = () => {
         variant: "destructive",
       });
     } else {
-      const updatedSession = await update();
+      // await update();
+      if (session && session.user.emailVerified) return router.push(`${BASE_URL}/`);
       localStorage.setItem("email", values.email);
-      if (updatedSession && updatedSession.user.emailVerified) router.push(`${BASE_URL}/`);
-      else router.push(`${BASE_URL}/email-verification`);
+      router.push(`${BASE_URL}/email-verification`);
     }
   };
 
