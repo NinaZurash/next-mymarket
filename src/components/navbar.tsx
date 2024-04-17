@@ -19,7 +19,6 @@ export default function Navbar() {
   const toggleMenu = () => {
     setShowUserMenu(!showUserMenu); // Toggle menu visibility
   };
-  console.log(wishlist);
   return (
     <div className="fixed top-0 z-10 flex w-full items-center justify-between border-b border-s-zinc-200 bg-white py-2">
       <Link href="/">
@@ -45,7 +44,7 @@ export default function Navbar() {
           <Link href={`${BASE_URL}/wishlist`}>
             <Heart name="wishlist" />
           </Link>
-          <span className="absolute mb-5 ml-6 w-4 rounded-full bg-[#ff641e] p-[3px] text-center text-[9px] text-white">
+          <span className="absolute mb-5 ml-6 w-5 rounded-full bg-[#ff641e] p-[3px] text-center text-[9px] text-white">
             {wishlist.length}
           </span>
         </div>

@@ -52,6 +52,8 @@ export default function ProductPage({ productId }: { productId: string }) {
     });
     setWishlist(response.wishlist);
   };
+
+  const isNotAddedToWishlist = wishlist.findIndex((item) => item.id === product.id) === -1;
   return (
     <div className="m-10 flex items-center p-4 ">
       <div className="flex h-[300px] w-[430px] rounded-lg border p-3">
@@ -67,7 +69,7 @@ export default function ProductPage({ productId }: { productId: string }) {
 
         <Heart
           onClick={addToWishlist}
-          className="absolute ml-[360px] size-9 rounded-full bg-[#f2f3f6] p-2 text-[#a9b2c5] hover:cursor-pointer"
+          className={`${isNotAddedToWishlist ? "bg-[#f2f3f6] text-[#a9b2c5]" : "bg-[#ffd100] text-white"} absolute ml-[360px] size-9 rounded-full p-2 hover:cursor-pointer`}
         />
       </div>
 
