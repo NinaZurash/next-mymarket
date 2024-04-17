@@ -67,6 +67,7 @@ model User {
   sessions      Session[]
   resetPasswordToken Int? @unique
   resetPasswordExpires DateTime?
+  wishlist      Products[]
 }
 
 model VerificationToken {
@@ -84,4 +85,5 @@ model Products {
   category  String
   description String
   image     String
+  user      User[]
 }

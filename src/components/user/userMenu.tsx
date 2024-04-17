@@ -24,7 +24,6 @@ const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 export default function UserMenu() {
   const { data: session } = useSession();
   const router = useRouter();
-  console.log(session?.user);
 
   const handleClick = () => {
     signOut({ callbackUrl: `${BASE_URL}/` });

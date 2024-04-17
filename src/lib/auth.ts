@@ -34,6 +34,7 @@ export const authOptions: NextAuthOptions = {
         }
         const user = await db.user.findUnique({
           where: { email: credentials.email },
+          include: { wishlist: true },
         });
 
         if (!user) {
@@ -45,12 +46,15 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
+        const wishlistProducts = user.wishlist.map((product) => product.id);
+
         return {
           id: user.id + "",
           email: user.email,
           username: user.username,
           emailVerified: user.emailVerified,
           name: user.name,
+          wishlist: wishlistProducts,
         };
       },
     }),
@@ -68,6 +72,7 @@ export const authOptions: NextAuthOptions = {
           emailVerified: user.emailVerified,
           name: user.name,
           id: user.id,
+          wishlist: user.wishlist,
         };
       }
       return token;
@@ -81,6 +86,7 @@ export const authOptions: NextAuthOptions = {
           emailVerified: token.emailVerified,
           name: token.name,
           id: token.id,
+          wishlist: token.wishlist,
         },
       };
     },

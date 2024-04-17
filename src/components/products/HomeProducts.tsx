@@ -10,7 +10,7 @@ import CategoriesList from "./CategoriesList";
 import VipProducts from "./VipProducts";
 
 export type Product = {
-  id: number;
+  id: string;
   title: string;
   price: string;
   category: string;
