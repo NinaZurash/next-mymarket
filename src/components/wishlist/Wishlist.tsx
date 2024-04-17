@@ -1,12 +1,19 @@
+"use client";
+
 import Link from "next/link";
 import { ChevronRight, Heart } from "lucide-react";
 
+import { useUserWishlist } from "@/providers/WishlistProvider";
+
 import ProductCard from "../products/ProductCard";
 import UserMenu from "../user/userMenu";
+import EmptyWishlist from "./EmptyWishlist";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function Wishlist() {
+  const { wishlist, setWishlist } = useUserWishlist();
+
   return (
     <div className="mt-[100px] flex min-h-screen flex-col items-center justify-between gap-10">
       <div className="flex w-full  gap-4 bg-[#f0f3f6] px-20 py-12">
@@ -20,19 +27,15 @@ export default function Wishlist() {
             <span className="text-[13px] font-semibold">ჩემი რჩეულები </span>
           </div>
           <div className="text-2xl font-black">ჩემი რჩეულები</div>
-          <div className="relative mx-auto mt-56 flex w-auto flex-col items-center gap-3">
-            <Heart className="size-10 rounded-full bg-[#e8ebf0] p-3 text-[#8896ae]" />
-            <div className="text-lg font-semibold">შენ არ გაქვს ფავორიტების სია</div>
-            <div className="text-[15px] text-slate-400">
-              ფავორიტებში დასამატებლად დააჭირეთ გულის ხატულას პროდუქტის ფოტოს მარჯვენა კუთხეში
+          {wishlist.length === 0 ? (
+            <EmptyWishlist />
+          ) : (
+            <div className="flex gap-4">
+              {wishlist.map((product) => {
+                return <ProductCard key={product.id} product={product} />;
+              })}
             </div>
-            <Link
-              href={`${BASE_URL}/`}
-              className="mt-5 rounded-2xl bg-[#fec900] px-14 py-5 text-[15px] font-black text-white"
-            >
-              სიის შექმნა
-            </Link>
-          </div>
+          )}
         </div>
       </div>
     </div>

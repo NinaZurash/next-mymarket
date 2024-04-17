@@ -5,7 +5,7 @@ import { useGetWishlist } from "@/services/wishlist";
 import { useSession } from "next-auth/react";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 
-import { ProductType } from "@/components/products/ProductCard";
+import { ProductType } from "@/types/globalTypes";
 
 type WishlistContextType = {
   wishlist: ProductType[];

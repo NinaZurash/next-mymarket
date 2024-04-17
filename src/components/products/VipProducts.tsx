@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Rocket } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import { ProductType } from "./ProductCard";
+import { ProductType } from "@/types/globalTypes";
 
 export default function VipProducts() {
   const { mutateAsync } = useAllProducts();

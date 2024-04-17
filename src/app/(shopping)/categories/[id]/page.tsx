@@ -9,6 +9,7 @@ import Navbar from "@/components/navbar";
 import { CATEGORIES } from "@/components/products/CategoriesList";
 import { Product } from "@/components/products/HomeProducts";
 import ProductCard from "@/components/products/ProductCard";
+import ProductHomeCard from "@/components/products/ProductHomeCard";
 
 const FILTERS = ["ფასი", "მდებარეობა", "გაყიდვის ტიპი", "განვადებით სარგებლობა"];
 
