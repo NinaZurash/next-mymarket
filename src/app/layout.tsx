@@ -5,6 +5,7 @@ import "./globals.css";
 
 import { cn } from "@/lib/utils";
 import AuthProvider from "@/providers/AuthProvider";
+import { CartProvider } from "@/providers/CartProvider";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import { WishlistProvider } from "@/providers/WishlistProvider";
 import Footer from "@/components/Footer";
@@ -29,7 +30,9 @@ export default function RootLayout({
       <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
         <AuthProvider>
           <ReactQueryProvider>
-            <WishlistProvider>{children}</WishlistProvider>
+            <CartProvider>
+              <WishlistProvider>{children}</WishlistProvider>
+            </CartProvider>
           </ReactQueryProvider>
         </AuthProvider>
         <Toaster />

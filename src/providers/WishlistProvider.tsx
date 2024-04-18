@@ -28,7 +28,6 @@ export const WishlistProvider = ({ children }: Props) => {
     const userWishlist = async () => {
       if (!session?.user) return;
       const response = await mutateAsync(session?.user?.id);
-
       setWishlist(response.data);
     };
     userWishlist();

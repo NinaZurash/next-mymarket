@@ -9,7 +9,7 @@ export default function ProductsPage({ params }: { params: { id: string } }) {
   const { id } = params;
 
   return (
-    <div className="mt-[100px] flex min-h-screen flex-col items-center justify-between gap-10">
+    <div className=" flex min-h-screen flex-col items-center justify-between gap-10">
       <div className=" flex w-full flex-col gap-10 p-8">
         <div className="flex w-full items-center justify-center">
           <div className="w-[80rem]">

@@ -4,16 +4,17 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { ChevronRight, Heart } from "lucide-react";
 
+import { useUserCart } from "@/providers/CartProvider";
 import { useUserWishlist } from "@/providers/WishlistProvider";
 
 import ProductCard from "../products/ProductCard";
 import UserMenu from "../user/userMenu";
-import EmptyWishlist from "./EmptyWishlist";
+import EmptyCart from "./EmptyCart";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export default function Wishlist() {
-  const { wishlist, setWishlist } = useUserWishlist();
+export default function Cart() {
+  const { cart } = useUserCart();
   const { data: session } = useSession();
 
   return (
@@ -26,14 +27,14 @@ export default function Wishlist() {
               <span className="text-[13px] font-semibold text-gray-400">მთავარი </span>
             </Link>
             <ChevronRight size={14} className=" text-zinc-500" />
-            <span className="text-[13px] font-semibold">ჩემი რჩეულები </span>
+            <span className="text-[13px] font-semibold">ჩემი კალათა </span>
           </div>
-          <div className="text-2xl font-black">ჩემი რჩეულები</div>
-          {wishlist.length === 0 ? (
-            <EmptyWishlist />
+          <div className="text-2xl font-black">ჩემი კალათა</div>
+          {cart.length === 0 ? (
+            <EmptyCart />
           ) : (
             <div className="flex gap-4">
-              {wishlist.map((product) => {
+              {cart.map((product) => {
                 return <ProductCard key={product.id} product={product} />;
               })}
             </div>

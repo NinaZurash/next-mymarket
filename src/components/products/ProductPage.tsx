@@ -1,5 +1,6 @@
 "use client";
 
+import { useProductToCart } from "@/services/cart";
 import { useProductById } from "@/services/products";
 import { useProductToWishlist } from "@/services/wishlist";
 
@@ -8,6 +9,7 @@ import Image from "next/image";
 import { Heart, ShoppingCart } from "lucide-react";
 import { useEffect, useState } from "react";
 
+import { useUserCart } from "@/providers/CartProvider";
 import { useUserWishlist } from "@/providers/WishlistProvider";
 
 import { Button } from "../ui/button";
@@ -17,8 +19,12 @@ import { Product } from "./HomeProducts";
 export default function ProductPage({ productId }: { productId: string }) {
   const { data: session } = useSession();
   const { mutateAsync } = useProductById();
+
   const { mutateAsync: mutateWishlist } = useProductToWishlist();
   const { wishlist, setWishlist } = useUserWishlist();
+
+  const { mutateAsync: mutateCart } = useProductToCart();
+  const { cart, setCart } = useUserCart();
 
   const [product, setProduct] = useState<Product | null>(null);
   const { toast } = useToast();
@@ -53,6 +59,22 @@ export default function ProductPage({ productId }: { productId: string }) {
     setWishlist(response.wishlist);
   };
 
+  const addToCart = async () => {
+    if (!session?.user || session?.user?.id === undefined) {
+      return toast({
+        title: "შეცდომა",
+        description: "გთხოვთ სცადეთ მოგვიანებით",
+        variant: "destructive",
+      });
+    }
+
+    const response = await mutateCart({
+      productId: product.id,
+      userId: session.user.id,
+    });
+    setCart(response.cart);
+  };
+
   const isNotAddedToWishlist = wishlist.findIndex((item) => item.id === product.id) === -1;
   return (
     <div className="m-10 flex items-center p-4 ">
@@ -78,7 +100,10 @@ export default function ProductPage({ productId }: { productId: string }) {
         <hr></hr>
         <div className="flex items-center justify-between">
           <span>{product.price} ლ</span>
-          <Button className="text-md mr-8 flex items-center gap-2 rounded-lg  border border-yellow-200 bg-white p-8 text-yellow-500 hover:bg-yellow-100">
+          <Button
+            onClick={addToCart}
+            className="text-md mr-8 flex items-center gap-2 rounded-lg  border border-yellow-200 bg-white p-8 text-yellow-500 hover:bg-yellow-100"
+          >
             <span>დაამატე კალათაში</span> <ShoppingCart />
           </Button>
         </div>

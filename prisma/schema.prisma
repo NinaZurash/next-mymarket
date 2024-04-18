@@ -67,7 +67,8 @@ model User {
   sessions      Session[]
   resetPasswordToken Int? @unique
   resetPasswordExpires DateTime?
-  wishlist      Products[]
+  wishlist      Products[]    @relation(name: "WishlistProducts")
+  cart           Products[]    @relation(name: "CartProducts")
 }
 
 model VerificationToken {
@@ -85,5 +86,6 @@ model Products {
   category  String
   description String
   image     String
-  user      User[]
+  user      User[]   @relation(name: "WishlistProducts")
+  carts     User[]   @relation(name: "CartProducts")
 }

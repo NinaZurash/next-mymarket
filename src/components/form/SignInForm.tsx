@@ -46,6 +46,7 @@ const SignInForm = () => {
       password: values.password,
       redirect: false,
     });
+
     if (!user || user?.error) {
       return toast({
         title: "Error",

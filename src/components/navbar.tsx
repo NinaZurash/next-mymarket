@@ -4,28 +4,32 @@ import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronDown, CirclePlus, Heart, Mail, ShoppingCart, User } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
+import { useUserCart } from "@/providers/CartProvider";
 import { useUserWishlist } from "@/providers/WishlistProvider";
 
-import { Button, buttonVariants } from "./ui/button";
+import { Button } from "./ui/button";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function Navbar() {
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const { wishlist } = useUserWishlist();
   const { data: session } = useSession();
+
+  const { wishlist } = useUserWishlist();
+  const { cart } = useUserCart();
+
   const toggleMenu = () => {
     setShowUserMenu(!showUserMenu); // Toggle menu visibility
   };
   return (
-    <div className="fixed top-0 z-10 flex w-full items-center justify-between border-b border-s-zinc-200 bg-white py-2">
+    <div className="fixed top-0 z-10 flex w-full items-center justify-between border-b border-zinc-100 bg-white py-2">
       <Link href="/">
         <Image
           alt="tracer-logo"
           src="/assets/mymarket.png"
-          className="ml-16 py-5"
+          className="ml-24 py-5"
           width={150}
           height={150}
         />
@@ -44,11 +48,22 @@ export default function Navbar() {
           <Link href={`${BASE_URL}/wishlist`}>
             <Heart name="wishlist" />
           </Link>
-          <span className="absolute mb-5 ml-6 w-5 rounded-full bg-[#ff641e] p-[3px] text-center text-[9px] text-white">
+          <span
+            className={`${wishlist.length === 0 ? "hidden" : ""} absolute mb-5 ml-6 w-5 rounded-full bg-[#ff641e] p-[3px] text-center text-[9px] text-white`}
+          >
             {wishlist.length}
           </span>
         </div>
-        <ShoppingCart />
+        <div className="flex items-center justify-center">
+          <Link href={`${BASE_URL}/cart`}>
+            <ShoppingCart />
+          </Link>
+          <span
+            className={`${cart.length === 0 ? "hidden" : ""} absolute mb-5 ml-6 w-5 rounded-full bg-[#ff641e] p-[3px] text-center text-[9px] text-white`}
+          >
+            {cart.length}
+          </span>
+        </div>
         {session?.user ? (
           <Button
             onClick={toggleMenu}
@@ -70,23 +85,13 @@ export default function Navbar() {
         className={`absolute right-28 top-20 flex w-[260px] flex-col gap-4 rounded-lg bg-white py-3 shadow-[0_6px_18px_0_rgba(0,0,0,0.2)]  ${showUserMenu ? "block" : "hidden"}`}
       >
         <div className="flex items-center p-4">
-          {session?.user.image ? (
-            <Image
-              src={session.user.image}
-              alt="user image"
-              width={50}
-              height={50}
-              className="rounded-full"
-            />
-          ) : (
-            <Image
-              src={"/assets/icons8-user.gif"}
-              alt="user image"
-              width={50}
-              height={50}
-              className="rounded-full"
-            />
-          )}
+          <Image
+            src={"/assets/icons8-user.gif"}
+            alt="user image"
+            width={50}
+            height={50}
+            className="rounded-full"
+          />
           <span className="text-sm">{session?.user.email}</span>
         </div>
         <div className="w-full border border-t-gray-100"></div>
