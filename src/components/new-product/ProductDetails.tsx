@@ -5,7 +5,11 @@ import { Label } from "../ui/label";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { CategoriesCombobox } from "./CategoriesCombobox";
 
-export default function ProductDetails() {
+type Props = {
+  category: string;
+  setCategory: (category: string) => void;
+};
+export default function ProductDetails({ category, setCategory }: Props) {
   return (
     <div className="mt-6 flex w-[600px] flex-col gap-4 rounded-3xl bg-white p-8">
       <span className="font-semibold">განცხადების დეტალები</span>
@@ -16,7 +20,7 @@ export default function ProductDetails() {
             <div className="flex items-center space-x-2">
               <RadioGroupItem className="hidden" value="option-one" id="option-one" />
               <Label
-                className="rounded-3xl bg-[#f2f5f7] px-4 py-3 checked:bg-[#496cf9] hover:cursor-pointer"
+                className="rounded-3xl bg-[#496cf9] px-4 py-3 text-white hover:cursor-pointer"
                 htmlFor="option-one"
               >
                 გაყიდვა
@@ -56,7 +60,7 @@ export default function ProductDetails() {
         <div className="text-[13px] font-semibold">
           აირჩიე/ჩაწერე კატეგორია <span className="text-orange-600">*</span>
         </div>
-        <CategoriesCombobox />
+        <CategoriesCombobox category={category} setCategory={setCategory} />
       </div>
       <div className="m-10 flex h-[200px] items-center justify-center rounded-3xl border-[2px] border-dashed border-[#fec900] ">
         <Input

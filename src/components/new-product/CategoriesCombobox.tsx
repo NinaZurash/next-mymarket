@@ -17,11 +17,16 @@ import {
 } from "../ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
-export function CategoriesCombobox() {
+type Props = {
+  category: string;
+  setCategory: (category: string) => void;
+};
+export function CategoriesCombobox({ category, setCategory }: Props) {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
 
-  const selectedValue = Object.entries(CATEGORIES).find(([key, { title, image }]) => key === value);
+  const selectedValue = Object.entries(CATEGORIES).find(
+    ([key, { title, image }]) => key === category,
+  );
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -31,7 +36,7 @@ export function CategoriesCombobox() {
           aria-expanded={open}
           className="w-full justify-between rounded-lg p-5"
         >
-          {value && selectedValue ? selectedValue[1].title : "აირჩიე/ჩაწერე კატეგორია"}
+          {category && selectedValue ? selectedValue[1].title : "აირჩიე/ჩაწერე კატეგორია"}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -46,13 +51,16 @@ export function CategoriesCombobox() {
                   key={key}
                   value={key}
                   onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue);
+                    setCategory(currentValue === category ? "" : currentValue);
                     setOpen(false);
                   }}
                 >
                   {title}
                   <CheckIcon
-                    className={cn("ml-auto h-4 w-4", value === key ? "opacity-100" : "opacity-0")}
+                    className={cn(
+                      "ml-auto h-4 w-4",
+                      category === key ? "opacity-100" : "opacity-0",
+                    )}
                   />
                 </CommandItem>
               ))}

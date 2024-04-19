@@ -8,6 +8,7 @@ const nextConfig = {
       "static.my.ge",
       "port80ge.adocean.pl",
       "img.icons8.com",
+      "www.mymarket.ge",
     ],
   },
 };

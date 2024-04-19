@@ -69,6 +69,7 @@ model User {
   resetPasswordExpires DateTime?
   wishlist      Products[]    @relation(name: "WishlistProducts")
   cart           Products[]    @relation(name: "CartProducts")
+  myproducts    Products[] 
 }
 
 model VerificationToken {
@@ -88,4 +89,6 @@ model Products {
   image     String
   user      User[]   @relation(name: "WishlistProducts")
   carts     User[]   @relation(name: "CartProducts")
+  author    User?     @relation(fields: [authorId], references: [id])
+  authorId String?
 }
