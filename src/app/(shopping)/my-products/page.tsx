@@ -8,6 +8,7 @@ import { ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { ProductType } from "@/types/globalTypes";
+import { useUserProducts } from "@/providers/UserProductsProvider";
 import EmptyProducts from "@/components/new-product/EmptyProducts";
 import ProductCard from "@/components/products/ProductCard";
 import { useToast } from "@/components/ui/use-toast";
@@ -18,31 +19,8 @@ const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function MyProducts() {
   const { data: session } = useSession();
-  const { mutateAsync } = useGetMyProducts();
-  const [myProducts, setMyProducts] = useState<ProductType[]>([]);
+  const { userProducts } = useUserProducts();
   const { toast } = useToast();
-
-  useEffect(() => {
-    const getMyProducts = async () => {
-      if (!session?.user) return;
-      const response = await mutateAsync({ userId: session.user.id });
-      console.log(response);
-      if (response?.error) {
-        return toast({
-          title: "Error",
-          description: "შეცდომა, სცადეთ მოგვიანებით",
-          variant: "destructive",
-        });
-      }
-      setMyProducts(response.data);
-    };
-    if (!session?.user) {
-      setTimeout(() => {
-        console.log(session?.user);
-        getMyProducts();
-      }, 1000);
-    } else getMyProducts();
-  }, []);
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-between gap-10">
@@ -57,11 +35,11 @@ export default function MyProducts() {
             <span className="text-[13px] font-semibold">ჩემი განცხადებები </span>
           </div>
           <div className="text-2xl font-black">ჩემი განცხადებები</div>
-          {myProducts.length === 0 ? (
+          {userProducts.length === 0 ? (
             <EmptyProducts />
           ) : (
             <div className="flex gap-4">
-              {myProducts.map((product) => {
+              {userProducts.map((product) => {
                 return <ProductCard key={product.id} product={product} />;
               })}
             </div>

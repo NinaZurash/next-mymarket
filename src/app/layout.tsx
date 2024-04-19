@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import AuthProvider from "@/providers/AuthProvider";
 import { CartProvider } from "@/providers/CartProvider";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
+import { UserProductsProvider } from "@/providers/UserProductsProvider";
 import { WishlistProvider } from "@/providers/WishlistProvider";
 import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/toaster";
@@ -31,7 +32,9 @@ export default function RootLayout({
         <AuthProvider>
           <ReactQueryProvider>
             <CartProvider>
-              <WishlistProvider>{children}</WishlistProvider>
+              <UserProductsProvider>
+                <WishlistProvider>{children}</WishlistProvider>
+              </UserProductsProvider>
             </CartProvider>
           </ReactQueryProvider>
         </AuthProvider>
