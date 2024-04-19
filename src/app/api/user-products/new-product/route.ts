@@ -31,3 +31,29 @@ export async function POST(req: NextRequest) {
     });
   }
 }
+
+export async function GET(req: NextRequest) {
+  const query = req.nextUrl.searchParams;
+  const userId = query.get("userId");
+  if (userId === null) {
+    return NextResponse.json({
+      status: 400,
+      message: "User ID is required",
+    });
+  }
+  const user = await db.user.findUnique({
+    where: { id: userId },
+    include: { myproducts: true }, // Include the wishlist array
+  });
+  if (!user) {
+    return NextResponse.json({
+      status: 404,
+      message: "User not found",
+    });
+  }
+
+  return NextResponse.json({
+    status: 200,
+    data: user.myproducts,
+  });
+}

@@ -64,7 +64,7 @@ export default function UserMenu() {
             განცხადების დამატება
           </div>
         </Link>
-        <Link href={""}>
+        <Link href={`${BASE_URL}/my-products`}>
           <div className="flex items-center gap-3  p-2 text-[15px] text-[#747888]">
             <List size={30} className="rounded-lg bg-[#f8f9fd] p-2 text-[#8896ae]" />
             ჩემი განცხადებები

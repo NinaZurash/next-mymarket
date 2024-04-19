@@ -5,4 +5,5 @@ export type ProductType = {
   category: string;
   description: string;
   image: string;
+  author?: string;
 };

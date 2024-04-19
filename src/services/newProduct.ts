@@ -23,3 +23,18 @@ export function useCreateNewProduct() {
     },
   });
 }
+
+export function useGetMyProducts() {
+  return useMutation({
+    mutationFn: async (payload: { userId: string }) => {
+      const response = await fetch(
+        `${baseURL}/api/user-products/new-product/?userId=${payload.userId}`,
+        {
+          method: "GET",
+        },
+      );
+
+      return response.json();
+    },
+  });
+}
