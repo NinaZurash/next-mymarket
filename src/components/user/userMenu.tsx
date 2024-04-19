@@ -29,7 +29,7 @@ export default function UserMenu() {
     signOut({ callbackUrl: `${BASE_URL}/` });
   };
   return (
-    <div className="flex w-[380px] flex-col gap-4 rounded-xl border-[2px] border-neutral-200 bg-white p-4">
+    <div className="flex h-fit w-[380px] flex-col gap-4 rounded-xl border-[2px] border-neutral-200 bg-white p-4">
       <div className="flex items-center gap-3">
         <Image
           width="96"
