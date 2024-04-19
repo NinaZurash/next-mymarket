@@ -1,52 +1,57 @@
 "use client";
 
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
 
-export const CATEGORIES = {
-  "mobiluri-telefoni":{
+export type CategoriesType = {
+  [key: string]: {
+    title: string;
+    image: string;
+  };
+};
+
+export const CATEGORIES: CategoriesType = {
+  "mobiluri-telefoni": {
     title: "მობილური ტელეფონი",
     image: "https://static.my.ge/mymarket/sections/tabs/images/279.jpg",
   },
-  "satamasho-konsoli":{
+  "satamasho-konsoli": {
     title: "სათამაშო კონსოლი",
     image: "https://static.my.ge/mymarket/sections/tabs/images/283.jpg",
   },
-  "noutbuki":{
+  noutbuki: {
     title: "ნოუთბუქი",
     image: "https://static.my.ge/mymarket/sections/tabs/images/287.jpg",
   },
-  "dzagli":{
+  dzagli: {
     title: "ძაღლი",
     image: "https://static.my.ge/mymarket/sections/tabs/images/291.jpg",
   },
-  "velosipedebi":{
+  velosipedebi: {
     title: "ველოსიპედი",
     image: "https://static.my.ge/mymarket/sections/tabs/images/295.jpg",
   },
-  "satsoli":{
+  satsoli: {
     title: "საწოლი",
     image: "https://static.my.ge/mymarket/sections/tabs/images/299.jpg",
   },
-  "saatebi":{
+  saatebi: {
     title: "საათები",
     image: "https://static.my.ge/mymarket/sections/tabs/images/303.jpg",
   },
-  "pexsatsmeli":{
+  pexsatsmeli: {
     title: "ფეხსაცმელი",
     image: "https://static.my.ge/mymarket/sections/tabs/images/307.jpg",
   },
-  "satamashoebi":{
+  satamashoebi: {
     title: "სათამაშოები",
     image: "https://static.my.ge/mymarket/sections/tabs/images/311.jpg",
   },
-  
-}
+};
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-
 
 export default function CategoriesList() {
   const [hovered, setHovered] = useState(false);
@@ -58,39 +63,39 @@ export default function CategoriesList() {
       onMouseLeave={() => {
         setHovered(false);
       }}
-      className="flex space-x-4 bg-white justify-center items-center "
+      className="flex items-center justify-center space-x-4 bg-white "
     >
       <ChevronLeft
         width={50}
         height={50}
         className={`${
           hovered ? "visible" : "invisible"
-        } absolute left-28 p-4 bg-white shadow-md rounded-full`}
+        } absolute left-28 rounded-full bg-white p-4 shadow-md`}
       />
-      <div className="flex-none w-36 h-28 bg-[#333] rounded-lg flex flex-col justify-center items-center text-white">
+      <div className="flex h-28 w-36 flex-none flex-col items-center justify-center rounded-lg bg-[#333] text-white">
         <MenuIcon className="text-3xl" />
         <span className="mt-2">კატეგორიები</span>
       </div>
-      <div className="flex gap-3  touch-pan-y overflow-x-auto overflow-y-hidden no-scrollbar w-full">
-        {Object.entries(CATEGORIES).map(([category,{title,image}]) => {
-        
-          return  (  <div key={title} className="relative">
+      <div className="no-scrollbar flex  w-full touch-pan-y gap-3 overflow-x-auto overflow-y-hidden">
+        {Object.entries(CATEGORIES).map(([category, { title, image }]) => {
+          return (
+            <div key={title} className="relative">
               <Link href={`${BASE_URL}/categories/${category}`} className="hover:cursor-pointer">
-                <div className="flex flex-none w-40 h-28 rounded-2xl">
+                <div className="flex h-28 w-40 flex-none rounded-2xl">
                   <Image
-                    className=" hover:scale-110 transition-all duration-300 ease-in-out"
+                    className=" transition-all duration-300 ease-in-out hover:scale-110"
                     src={image}
                     alt={title}
                     width={160}
                     height={96}
                   />
                 </div>
-                <span className="absolute top-0 left-0 w-full p-2 text-black text-[15px] font-semibold">
+                <span className="absolute left-0 top-0 w-full p-2 text-[15px] font-semibold text-black">
                   {title}
                 </span>
               </Link>
             </div>
-          )
+          );
         })}
       </div>
       <ChevronRight
@@ -98,7 +103,7 @@ export default function CategoriesList() {
         height={50}
         className={`${
           hovered ? "visible" : "invisible"
-        } t absolute right-24 p-4 bg-white shadow-md rounded-full`}
+        } t absolute right-24 rounded-full bg-white p-4 shadow-md`}
       />
     </div>
   );

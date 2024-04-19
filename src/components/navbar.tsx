@@ -37,7 +37,7 @@ export default function Navbar() {
       <div className="mr-28 flex items-center gap-6">
         <Link
           className="flex items-center gap-2 rounded-xl bg-[#fff3cc] px-7 py-3 text-sm font-semibold transition-colors duration-500 ease-in-out hover:bg-[#FFEFB2]"
-          href="/"
+          href={`${BASE_URL}/products/new`}
         >
           <CirclePlus size={20} color="#fec900" />
           დამატება
@@ -49,9 +49,9 @@ export default function Navbar() {
             <Heart name="wishlist" />
           </Link>
           <span
-            className={`${wishlist.length === 0 ? "hidden" : ""} absolute mb-5 ml-6 w-5 rounded-full bg-[#ff641e] p-[3px] text-center text-[9px] text-white`}
+            className={`${!wishlist || wishlist.length === 0 ? "hidden" : ""} absolute mb-5 ml-6 w-5 rounded-full bg-[#ff641e] p-[3px] text-center text-[9px] text-white`}
           >
-            {wishlist.length}
+            {wishlist?.length || 0}
           </span>
         </div>
         <div className="flex items-center justify-center">
@@ -59,9 +59,9 @@ export default function Navbar() {
             <ShoppingCart />
           </Link>
           <span
-            className={`${cart.length === 0 ? "hidden" : ""} absolute mb-5 ml-6 w-5 rounded-full bg-[#ff641e] p-[3px] text-center text-[9px] text-white`}
+            className={`${!cart || cart.length === 0 ? "hidden" : ""} absolute mb-5 ml-6 w-5 rounded-full bg-[#ff641e] p-[3px] text-center text-[9px] text-white`}
           >
-            {cart.length}
+            {cart?.length || 0}
           </span>
         </div>
         {session?.user ? (
@@ -92,7 +92,9 @@ export default function Navbar() {
             height={50}
             className="rounded-full"
           />
-          <span className="text-sm">{session?.user.email}</span>
+          <span className="max-w-fit overflow-hidden overflow-ellipsis whitespace-nowrap text-sm">
+            {session?.user.email}lkndslflkn
+          </span>
         </div>
         <div className="w-full border border-t-gray-100"></div>
         <Button

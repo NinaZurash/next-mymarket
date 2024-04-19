@@ -26,6 +26,8 @@ export default function ProductPage({ productId }: { productId: string }) {
   const { mutateAsync: mutateCart } = useProductToCart();
   const { cart, setCart } = useUserCart();
 
+  const [showMore, setShowMore] = useState(true);
+
   const [product, setProduct] = useState<Product | null>(null);
   const { toast } = useToast();
   useEffect(() => {
@@ -77,7 +79,7 @@ export default function ProductPage({ productId }: { productId: string }) {
 
   const isNotAddedToWishlist = wishlist.findIndex((item) => item.id === product.id) === -1;
   return (
-    <div className="m-10 flex items-center p-4 ">
+    <div className="m-10 flex p-4 ">
       <div className="flex h-[300px] w-[430px] rounded-lg border p-3">
         <div className="flex w-full items-center justify-center">
           <Image
@@ -95,21 +97,39 @@ export default function ProductPage({ productId }: { productId: string }) {
         />
       </div>
 
-      <div className="item flex w-[700px] flex-col gap-y-6 p-5 text-lg">
-        <h1 className="w-full font-bold">{product.title}</h1>
+      <div className="flex w-[700px] flex-col justify-start gap-3 px-5 py-1 text-lg">
+        <div>
+          <h1 className="w-full text-xs font-light">ID {product.id}</h1>
+          <h1 className="w-full font-bold">{product.title}</h1>
+        </div>
         <hr></hr>
         <div className="flex items-center justify-between">
-          <span>{product.price} ლ</span>
+          <span className="font-semibold">{product.price} ლ</span>
           <Button
             onClick={addToCart}
-            className="text-md mr-8 flex items-center gap-2 rounded-lg  border border-yellow-200 bg-white p-8 text-yellow-500 hover:bg-yellow-100"
+            className="mr-8 flex items-center gap-2 rounded-lg  border border-yellow-200 bg-white p-4 text-yellow-500 hover:bg-yellow-100"
           >
             <span>დაამატე კალათაში</span> <ShoppingCart />
           </Button>
         </div>
         <hr></hr>
-        <p className="text-sm">{product.description}</p>
+        <div className="flex flex-col">
+          <p
+            className={`${showMore && "line-clamp-[8]"} text-sm`}
+            dangerouslySetInnerHTML={{ __html: formatDescription(product.description) }}
+          ></p>
+          <span
+            onClick={() => setShowMore(!showMore)}
+            className="text-xs text-blue-700 hover:cursor-pointer"
+          >
+            {showMore ? `კითხვის გაგრძელება` : "აკეცვა"}
+          </span>
+        </div>
       </div>
     </div>
   );
 }
+
+const formatDescription = (description: string) => {
+  return description.replace(/\n/g, "<br />");
+};

@@ -1,28 +1,22 @@
 "use client";
 
-import SubmitButton from "@/components/form/SubmitButton";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { toast } from "@/components/ui/use-toast";
 import { useResetPassword } from "@/services/auth/handleToken";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+
+import SubmitButton from "@/components/form/SubmitButton";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { toast } from "@/components/ui/use-toast";
 
 const FormSchema = z
   .object({
     password: z.string().min(8, "Password must be at least 8 characters"),
-    confirmPassword: z
-      .string()
-      .min(8, "Password must be at least 8 characters"),
+    confirmPassword: z.string().min(8, "Password must be at least 8 characters"),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
@@ -76,11 +70,8 @@ export default function ResetPasswordPage() {
   return (
     <Form {...form}>
       <div className="flex flex-col gap-y-7 ">
-        <h1 className="font-bold text-[28px]">ახალი პაროლის შექმნა</h1>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col gap-10"
-        >
+        <h1 className="text-[28px] font-bold">ახალი პაროლის შექმნა</h1>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-10">
           <div className="space-y-6">
             <FormField
               control={form.control}
@@ -88,11 +79,7 @@ export default function ResetPasswordPage() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input
-                      type="password"
-                      placeholder="ახალი პაროლი"
-                      {...field}
-                    />
+                    <Input type="password" placeholder="ახალი პაროლი" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -104,11 +91,7 @@ export default function ResetPasswordPage() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input
-                      type="password"
-                      placeholder="გაიმეორეთ პაროლი"
-                      {...field}
-                    />
+                    <Input type="password" placeholder="გაიმეორეთ პაროლი" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -117,10 +100,7 @@ export default function ResetPasswordPage() {
           </div>
           <SubmitButton title="გაგრძელება" />
         </form>
-        <Link
-          className="ml-auto p-3 text-sky-600 hover:text-sky-800"
-          href={`${BASE_URL}/sign-in`}
-        >
+        <Link className="ml-auto p-3 text-sky-600 hover:text-sky-800" href={`${BASE_URL}/sign-in`}>
           დაბრუნება
         </Link>
       </div>
