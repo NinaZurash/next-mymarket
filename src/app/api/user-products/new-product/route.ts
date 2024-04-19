@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
         price,
         category,
         image,
-        user: {
+        author: {
           connect: { id: userId },
         },
       },

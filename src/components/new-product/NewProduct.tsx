@@ -73,7 +73,7 @@ export default function NewProduct() {
       description: "განცხადება დაემატა",
       variant: "success",
     });
-    router.reload();
+    router.push(`${BASE_URL}/categories/${category}`);
   };
   return (
     <div className="flex min-h-screen flex-col items-center justify-between gap-10">
